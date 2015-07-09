@@ -236,7 +236,7 @@ SortedDict_dealloc(SortedDict *self)
 static PyObject *
 SortedDict_new(PyTypeObject *type, PyObject *, PyObject *)
 {
-    SortedDict *self = (SortedDict *)type->tp_alloc(type, 0); 
+    SortedDict *self = PyObject_GC_New(SortedDict, type);
     if (self) 
         self->dict = new (nothrow) 
             map<KeyPointer, ValuePointer, KeyComparer>();
