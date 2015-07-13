@@ -483,6 +483,8 @@ SortedDict_items(SortedDict *self, PyObject *)
             PyErr_SetNone(PyExc_RuntimeError);
             return NULL;
         }
+        Py_INCREF(it->first);
+        Py_INCREF(it->second);
         PyList_SetItem(list, i, tuple);
     }
 
