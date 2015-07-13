@@ -331,9 +331,8 @@ SortedDict_getItem(SortedDict *self, PyObject *key)
 {
     auto dict = self->dict;
     auto it = dict->find(key);
-    if (it != dict->end()) {
+    if (it != dict->end()) 
         return INCREF(it->second);
-    }
 
     PyErr_SetObject(PyExc_KeyError, key);
     return NULL;
@@ -485,8 +484,6 @@ SortedDict_items(SortedDict *self, PyObject *)
             return NULL;
         }
         PyList_SetItem(list, i, tuple);
-        Py_INCREF(it->first);
-        Py_INCREF(it->second);
     }
 
     return list;
@@ -519,12 +516,15 @@ SortedDict_repr(SortedDict *self)
 
     string repr = "{";
     for (auto kvp: *dict) {
-        char *keyRepr = PyUnicode_AsUTF8(PyObject_Repr(kvp.first));
-        char *valRepr = PyUnicode_AsUTF8(PyObject_Repr(kvp.second));
-        repr += keyRepr;
+        PyObject *reprObj = PyObject_Repr(kvp.first);
+        repr += PyUnicode_AsUTF8(reprObj);
         repr += ": ";
-        repr += valRepr;
+        Py_CLEAR(reprObj);
+
+        reprObj = PyObject_Repr(kvp.second);
+        repr += PyUnicode_AsUTF8(reprObj);
         repr += ", ";
+        Py_CLEAR(reprObj);
     }
     repr.erase(repr.end() - 2, repr.end());
     repr += "}";
