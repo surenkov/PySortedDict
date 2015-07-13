@@ -52,6 +52,12 @@ class SortedDictTests(unittest.TestCase):
         a.update({'b': 2})
         self.assertEqual(a, expected)
 
+    def test_clear(self):
+        a = SortedDict({'a': 1, 'b': 2})
+        a.clear()
+        self.assertEqual(len(a), 0)
+        self.assertTrue('a' not in a)
+
     def test_keys_values_items(self):
         a = SortedDict({'a': 1, 'b': 2})
         self.assertListEqual(a.keys(), ['a', 'b'])
@@ -72,6 +78,10 @@ class SortedDictTests(unittest.TestCase):
         self.assertTrue('a' not in a)
         self.assertEqual(len(a), 0)
         self.assertRaises(KeyError, lambda: a.popitem())
+
+    def test_repr(self):
+        a = SortedDict({'a': 1, 'b': 2})
+        self.assertEqual(repr(a), "{'a': 1, 'b': 2}")
 
 
 if __name__ == '__main__':
